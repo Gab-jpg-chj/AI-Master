@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Master – Skills de Claude</title>
+  <meta name="description" content="Fiche de révision : comprendre les Skills de Claude et savoir les faire passer à l'échelle.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <a class="brand" href="index.html">AI<b>Master</b></a>
+    <a class="tab" href="index.html">Fiche IA</a>
+    <a class="tab" href="skills.html" aria-current="page">Skills</a>
+    <a class="tab" href="game.html">Le quiz</a>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Fiche de révision · Skills de Claude</p>
+    <h1>Les Skills de Claude, et comment les <em>faire passer à l'échelle</em></h1>
+    <p class="sub">Ce qu'est un skill, comment il est chargé, où il vit, et les règles pour en gérer des dizaines sans que Claude s'y perde.</p>
+    <div class="actions">
+      <a class="btn" href="#s5">Les règles pour scaler</a>
+      <a class="btn alt" href="game.html">Faire le quiz</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sommaire">
+      <p>Sommaire</p>
+      <ol>
+        <li><a href="#s1">1. C'est quoi un skill ?</a></li>
+        <li><a href="#s2">2. Anatomie d'un skill</a></li>
+        <li><a href="#s3">3. Chargement en 3 niveaux</a></li>
+        <li><a href="#s4">4. Où vivent les skills</a></li>
+        <li><a href="#s5">5. Scaler : les bonnes pratiques</a></li>
+        <li><a href="#s6">6. Distribuer et gouverner</a></li>
+        <li><a href="#s7">7. Skill, MCP, sous-agent…</a></li>
+        <li><a href="#s8">8. Limites chiffrées</a></li>
+        <li><a href="#recap">En 7 règles</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ol>
+    </nav>
+
+    <main class="doc">
+
+      <section id="s1">
+        <h2><span class="n">PARTIE 1</span>C'est quoi un skill ?</h2>
+        <p class="lead">Un skill est un dossier d'instructions que Claude va chercher seulement quand la tâche le demande.</p>
+        <div class="box"><span class="term">Définition</span><p>Un dossier qui contient un fichier <code>SKILL.md</code> (des instructions en Markdown) et, au besoin, des fichiers de référence et des scripts. Claude le lit quand la demande correspond à sa description.</p></div>
+        <div class="box"><span class="term">À quoi ça sert</span><p>Enseigner à Claude une méthode réutilisable : une procédure, un format de document, une façon de travailler propre à ton équipe. Tu l'écris une fois, il s'applique à chaque fois.</p></div>
+        <div class="box link"><span class="term">Pourquoi pas tout mettre dans le prompt ?</span><p>Parce que le contexte de Claude est limité et partagé. Un skill ne coûte presque rien tant qu'il n'est pas utile : c'est ce qui permet d'en avoir beaucoup.</p></div>
+      </section>
+
+      <section id="s2">
+        <h2><span class="n">PARTIE 2</span>Anatomie d'un skill</h2>
+        <p class="lead">Un dossier, un fichier obligatoire, et quelques lignes de réglages en tête.</p>
+        <pre><span class="c"># Arborescence type</span>
+mon-skill/
+├── SKILL.md          <span class="c"># obligatoire : sert de sommaire</span>
+├── reference.md      <span class="c"># détails, lus seulement au besoin</span>
+├── examples.md
+└── scripts/
+    └── valider.py    <span class="c"># exécuté, pas lu</span></pre>
+        <pre>---
+name: rapport-hebdo
+description: Rédige le rapport hebdomadaire d'équipe au format interne.
+  À utiliser quand l'utilisateur parle de compte rendu de semaine.
+---
+
+# Rapport hebdo
+1. Rassemble les points de la semaine.
+2. Suis le modèle décrit dans reference.md.
+3. Exécute scripts/valider.py avant de rendre le résultat.</pre>
+        <div class="box"><span class="term">Le frontmatter</span><p>Le bloc entre les deux lignes <code>---</code>, à la toute première ligne du fichier. Si le YAML est mal écrit, le skill se charge sans ses réglages.</p></div>
+        <div class="box"><span class="term">Dans Claude Code</span><p>Tous les champs sont optionnels, seul <code>description</code> est recommandé. Le <code>name</code> prend par défaut le nom du dossier. Autres champs utiles : <code>disable-model-invocation</code> (usage manuel seulement), <code>allowed-tools</code>, <code>context: fork</code> (exécuter dans un sous-agent), <code>paths</code>.</p></div>
+        <div class="box check"><span class="term">Sur claude.ai et l'API</span><p><code>name</code> et <code>description</code> sont obligatoires. <code>name</code> : 64 caractères maximum, minuscules, chiffres et tirets, sans les mots réservés « anthropic » et « claude ». <code>description</code> : non vide, 1 024 caractères maximum. Les autres champs que <code>license</code>, <code>compatibility</code>, <code>metadata</code> et <code>allowed-tools</code> sont refusés.</p></div>
+        <div class="box check"><span class="term">À ne pas présenter comme standard</span><p>Les dossiers <code>scripts/</code> et des fichiers de référence sont montrés dans la documentation. Un dossier <code>assets/</code> n'y est pas décrit comme une convention.</p></div>
+      </section>
+
+      <section id="s3">
+        <h2><span class="n">PARTIE 3</span>Le chargement en 3 niveaux</h2>
+        <p class="lead">Le principe clé pour scaler : Claude ne charge que ce dont il a besoin, au moment où il en a besoin. C'est la « progressive disclosure ».</p>
+        <div class="tiers">
+          <div class="tier"><span class="cost">Niveau 1 · au démarrage</span><b>Métadonnées</b><p><code>name</code> et <code>description</code> de chaque skill, toujours présents. Environ 100 tokens par skill.</p></div>
+          <div class="tier"><span class="cost">Niveau 2 · au déclenchement</span><b>Instructions</b><p>Le corps de <code>SKILL.md</code>, chargé quand la demande correspond. Moins de 5 000 tokens.</p></div>
+          <div class="tier"><span class="cost">Niveau 3 · au besoin</span><b>Ressources</b><p>Fichiers de référence et scripts. Rien tant qu'ils ne sont pas lus. Un script exécuté n'ajoute que sa sortie.</p></div>
+        </div>
+        <div class="box"><span class="term">Conséquence</span><p>Tu peux installer beaucoup de skills : chacun ne pèse que sa description tant qu'il ne sert pas. C'est donc la <b>description</b> qui devient la ressource rare.</p></div>
+        <div class="box"><span class="term">Dans Claude Code</span><p>Une fois invoqué, le <code>SKILL.md</code> reste dans la conversation. Lors d'une compaction, la dernière invocation de chaque skill est rattachée de nouveau, dans la limite de 5 000 tokens par skill et 25 000 au total.</p></div>
+        <div class="box check"><span class="term">Piège</span><p>Les fichiers de référence doivent être cités depuis <code>SKILL.md</code>. Sinon Claude ne sait pas qu'ils existent.</p></div>
+      </section>
+
+      <section id="s4">
+        <h2><span class="n">PARTIE 4</span>Où vivent les skills</h2>
+        <p class="lead">L'endroit où tu poses un skill décide de qui peut l'utiliser.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Emplacement</th><th>Chemin</th><th>Qui l'a</th></tr></thead>
+          <tbody>
+            <tr><td>Entreprise</td><td><code>.claude/skills/</code> dans les réglages managés</td><td>Toute l'organisation</td></tr>
+            <tr><td>Personnel</td><td><code>~/.claude/skills/&lt;nom&gt;/SKILL.md</code></td><td>Toutes tes sessions</td></tr>
+            <tr><td>Projet</td><td><code>.claude/skills/&lt;nom&gt;/SKILL.md</code></td><td>Le dépôt</td></tr>
+            <tr><td>Imbriqué</td><td><code>sous-dossier/.claude/skills/</code></td><td>Ce sous-dossier (monorepo)</td></tr>
+            <tr><td>Plugin</td><td><code>plugin/skills/&lt;nom&gt;/SKILL.md</code></td><td>Là où le plugin est activé</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box"><span class="term">Priorité à nom identique</span><p>Entreprise, puis personnel, puis projet. Les skills de plugin portent un préfixe (<code>/nom-plugin:nom-skill</code>), donc ils n'entrent pas en collision.</p></div>
+        <div class="box check"><span class="term">Trois surfaces séparées</span><p>claude.ai (zip importé dans les paramètres, skills individuels, sans gestion centrale par un admin), l'API (téléversement via <code>/v1/skills</code>, partagé à tout l'espace de travail) et Claude Code (système de fichiers). <b>Les skills ne se synchronisent pas entre ces trois surfaces.</b></p></div>
+      </section>
+
+      <section id="s5">
+        <h2><span class="n">PARTIE 5</span>Scaler : les bonnes pratiques</h2>
+        <p class="lead">Dix, trente, cent skills : ce qui change, c'est qu'ils se gênent entre eux. Voici comment l'éviter.</p>
+
+        <h3>Taille et découpage</h3>
+        <ul>
+          <li>Garde <code>SKILL.md</code> sous <b>500 lignes</b>. Dès que tu t'en approches, déplace le détail dans des fichiers de référence.</li>
+          <li>Une seule profondeur : <code>SKILL.md</code> pointe vers chaque fichier. Une référence qui cite une autre référence peut être lue en partie seulement.</li>
+          <li>Un fichier de plus de 100 lignes reçoit un sommaire en tête.</li>
+          <li>Range par domaine (<code>reference/finance.md</code>, <code>reference/ventes.md</code>) pour ne charger que le fichier utile.</li>
+        </ul>
+
+        <h3>La description décide du déclenchement</h3>
+        <ul>
+          <li>Dis ce que fait le skill <b>et</b> quand l'utiliser.</li>
+          <li>Écris à la troisième personne (« Traite des fichiers Excel… »), parce que la description est injectée dans le prompt système.</li>
+          <li>Mets des mots-clés précis. « Aide pour les documents » est trop vague.</li>
+          <li>Un skill se déclenche trop souvent ? Précise sa description, ou ajoute <code>disable-model-invocation: true</code> pour le réserver à l'usage manuel.</li>
+        </ul>
+
+        <h3>Éviter les chevauchements</h3>
+        <div class="box check"><span class="term">Le risque</span><p>Une description trop large « vole » les déclenchements d'autres skills. Teste que les skills coexistent bien.</p></div>
+        <div class="box link"><span class="term">La méthode</span><p>Commence par des skills étroits. Regroupe-les ensuite en ensembles par rôle (par exemple « opérations commerciales ») quand les évaluations confirment que les résultats restent équivalents.</p></div>
+
+        <h3>Scripts : exécuter plutôt que lire</h3>
+        <ul>
+          <li>Un script exécuté n'entre pas dans le contexte : seule sa sortie compte. C'est le bon choix pour les opérations déterministes.</li>
+          <li>Écris explicitement « Exécute <code>scripts/x.py</code> » ou « Lis <code>scripts/x.py</code> pour l'algorithme ».</li>
+          <li>Dans Claude Code, appelle les scripts avec <code>${CLAUDE_SKILL_DIR}</code>.</li>
+          <li>Sur l'API : pas d'accès réseau, pas d'installation de paquets à l'exécution.</li>
+        </ul>
+
+        <h3>Tester avant de multiplier</h3>
+        <ol class="steps">
+          <li>Écris les évaluations <b>avant</b> la documentation complète : mesure ce que Claude fait sans le skill.</li>
+          <li>Rédige le minimum qui comble les écarts.</li>
+          <li>Prévois au moins 3 évaluations par skill, sur les trois tailles de modèles (Haiku, Sonnet, Opus). Pour une équipe : 3 à 5 requêtes par skill, avec des cas où il doit se déclencher, ne pas se déclencher, et des cas ambigus.</li>
+        </ol>
+        <div class="box"><span class="term">Outils dans Claude Code</span><p><code>claude plugin eval</code> exécute des cas de test et peut vérifier si le skill a bien été déclenché. <code>claude plugin validate</code> contrôle le frontmatter. <code>/skill-doctor</code> donne un rapport d'usage et de coût en contexte.</p></div>
+
+        <h3>Versions</h3>
+        <ul>
+          <li><b>API :</b> sans numéro de version, c'est toujours la dernière. Un nouveau téléversement change donc la production tout de suite. En production, épingle une version et garde la précédente en secours.</li>
+          <li><b>Plugins :</b> le champ <code>version</code> de <code>plugin.json</code> est optionnel. S'il est défini, les utilisateurs restent dessus jusqu'à ce qu'il change.</li>
+          <li>Garde tes skills dans Git : relecture par pull request et retour arrière possibles.</li>
+        </ul>
+      </section>
+
+      <section id="s6">
+        <h2><span class="n">PARTIE 6</span>Distribuer et gouverner</h2>
+        <p class="lead">À plusieurs, un skill est du logiciel : il se packagera, se versionnera et se contrôlera comme tel.</p>
+        <div class="box"><span class="term">Plugin</span><p>Le paquet de distribution. Un dossier avec <code>.claude-plugin/plugin.json</code> qui regroupe skills, agents, hooks et serveurs MCP.</p></div>
+        <div class="box"><span class="term">Marketplace</span><p>Le catalogue d'où on installe les plugins. Pour une organisation, les réglages managés peuvent enregistrer une marketplace (<code>extraKnownMarketplaces</code>) et forcer ou bloquer un plugin (<code>enabledPlugins</code>).</p></div>
+        <div class="box"><span class="term">Garde-fous d'organisation</span><p><code>strictKnownMarketplaces</code> (liste blanche), <code>blockedMarketplaces</code> (liste noire), <code>disableSideloadFlags</code> (refuse les plugins chargés à la main) et <code>strictPluginOnlyCustomization</code> (bloque les skills, agents, hooks et MCP qui ne viennent pas d'un plugin ou des réglages managés).</p></div>
+        <div class="box"><span class="term">Mesurer l'usage</span><p>L'API Analytics (plan Enterprise) donne les installations et invocations par plugin. Une API d'usage des skills existe en bêta.</p></div>
+        <h3>Sécurité</h3>
+        <ul>
+          <li>Audite un skill comme un logiciel : scripts, appels réseau (<code>curl</code>, <code>requests</code>, <code>fetch</code>), identifiants écrits en dur, chemins qui sortent du dossier (<code>../</code>), instructions qui cachent des actions.</li>
+          <li>Sépare l'auteur et le relecteur.</li>
+          <li>Sur Claude Enterprise, un scan de sécurité des skills est activable dans les paramètres de l'organisation (claude.ai et Cowork, pas l'API).</li>
+        </ul>
+        <div class="box check"><span class="term">Règle qui doit toujours s'appliquer ?</span><p>Ne la confie pas seulement à un skill, qui reste une instruction que Claude interprète. Utilise un <b>hook</b>, qui est du code exécuté à coup sûr.</p></div>
+      </section>
+
+      <section id="s7">
+        <h2><span class="n">PARTIE 7</span>Skill, MCP, sous-agent, CLAUDE.md…</h2>
+        <p class="lead">Chaque outil répond à un besoin différent. Les confondre est l'erreur la plus courante.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Outil</th><th>Rôle</th><th>Coût en contexte</th></tr></thead>
+          <tbody>
+            <tr><td>CLAUDE.md</td><td>Règles « toujours faire X ». Moins de 200 lignes recommandé.</td><td>Chargé en entier à chaque session</td></tr>
+            <tr><td>Skill</td><td>Savoir ou procédure réutilisable, déclenchée à la demande.</td><td>Description seule, puis contenu à l'usage</td></tr>
+            <tr><td>Sous-agent</td><td>Tâche verbeuse ou parallèle dans un contexte isolé. Seul un résumé revient.</td><td>Contexte séparé</td></tr>
+            <tr><td>MCP</td><td>Connecter Claude à des services et données externes.</td><td>Schémas différés jusqu'à l'usage</td></tr>
+            <tr><td>Hook</td><td>Code exécuté à un événement. Déterministe.</td><td>Nul</td></tr>
+            <tr><td>Plugin</td><td>Emballage pour distribuer skills, agents, hooks et MCP.</td><td>Celui de son contenu</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box link"><span class="term">Elles se combinent</span><p>Un skill peut expliquer comment utiliser un serveur MCP, ou s'exécuter dans un sous-agent (<code>context: fork</code>). Un sous-agent peut précharger des skills avec le champ <code>skills:</code>.</p></div>
+        <div class="box"><span class="term">Commandes slash</span><p>Le dossier <code>.claude/commands/</code> est un format plus ancien. À nom égal, un skill l'emporte. Pour un nouveau plugin, utilise <code>skills/</code>.</p></div>
+      </section>
+
+      <section id="s8">
+        <h2><span class="n">PARTIE 8</span>Limites chiffrées</h2>
+        <p class="lead">Les seuls chiffres à retenir sont ceux de la documentation officielle. Ils changent selon la surface.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Limite</th><th>Valeur</th><th>Où</th></tr></thead>
+          <tbody>
+            <tr><td>Corps de SKILL.md</td><td>Moins de 500 lignes</td><td>Recommandation générale</td></tr>
+            <tr><td>Description à la création</td><td>1 024 caractères</td><td>API et claude.ai</td></tr>
+            <tr><td>Description + when_to_use dans la liste</td><td>1 536 caractères combinés</td><td>Claude Code</td></tr>
+            <tr><td>Budget de la liste des descriptions</td><td>1 % de la fenêtre de contexte</td><td>Claude Code</td></tr>
+            <tr><td>Skills par requête</td><td>20 maximum</td><td>API</td></tr>
+            <tr><td>Après compaction</td><td>5 000 tokens par skill, 25 000 au total</td><td>Claude Code</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box"><span class="term">Si la liste déborde</span><p>Claude Code retire d'abord les descriptions des skills les moins invoqués. Le nom reste toujours listé, et un avertissement apparaît dans le journal de debug. Réglages : <code>skillListingBudgetFraction</code>, <code>skillOverrides</code>.</p></div>
+        <div class="box check"><span class="term">Nombre maximum de skills</span><p>Il n'y a pas de plafond officiel. La documentation recommande de limiter ceux qui sont chargés en même temps et de mesurer la précision du déclenchement avec des évaluations.</p></div>
+      </section>
+
+      <section id="recap">
+        <h2><span class="n">EN RÉSUMÉ</span>Scaler en 7 règles</h2>
+        <ol class="steps">
+          <li>Un skill, une tâche précise. Étroit d'abord, regroupé ensuite.</li>
+          <li>La description dit ce que fait le skill et quand l'utiliser, avec des mots-clés précis.</li>
+          <li><code>SKILL.md</code> court (moins de 500 lignes), le détail dans des fichiers de référence cités depuis lui.</li>
+          <li>Les opérations fiables dans des scripts, exécutés plutôt que lus.</li>
+          <li>Des évaluations avant de multiplier : déclenchement, non-déclenchement, cas ambigus.</li>
+          <li>Git pour l'historique, des versions épinglées en production, des plugins pour distribuer.</li>
+          <li>Une revue de sécurité pour chaque skill, et un hook pour ce qui ne doit jamais être oublié.</li>
+        </ol>
+        <div class="cta-end">
+          <b>Les Skills n'ont plus de secret ?</b>
+          <a class="btn" href="game.html">Lancer le quiz</a>
+        </div>
+      </section>
+
+      <section id="sources">
+        <h2><span class="n">SOURCES</span>Documentation officielle</h2>
+        <ul class="src">
+          <li><a href="https://code.claude.com/docs/en/skills.md">Skills dans Claude Code</a></li>
+          <li><a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview">Agent Skills : vue d'ensemble</a></li>
+          <li><a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Agent Skills : bonnes pratiques d'écriture</a></li>
+          <li><a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise">Agent Skills pour l'entreprise</a></li>
+          <li><a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Article d'ingénierie Anthropic sur les Agent Skills</a></li>
+          <li><a href="https://code.claude.com/docs/en/plugins/org.md">Plugins : administration d'une organisation</a></li>
+          <li><a href="https://code.claude.com/docs/en/features-overview.md">Vue d'ensemble des extensions de Claude Code</a></li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>AI Master · fiche Skills de Claude</footer>
+</div>
+</body>
+</html>

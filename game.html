@@ -13,8 +13,9 @@
   <div class="shell">
     <header class="top">
       <a class="brand" href="index.html">AI<b>Master</b></a>
-      <a class="tab" href="index.html">La fiche</a>
-      <a class="tab" href="game.html" aria-current="page">Le quiz</a>
+      <a class="tab" href="index.html">Fiche IA</a>
+    <a class="tab" href="skills.html">Skills</a>
+    <a class="tab" href="game.html" aria-current="page">Le quiz</a>
     </header>
     <div class="game">
 
@@ -100,6 +101,20 @@ const QUESTIONS = [
   { t: "QCM", q: "L'orchestration, c'est…", o: ["Jouer de la musique", "Coordonner plusieurs étapes, outils, modèles ou agents", "Compresser un modèle", "Écrire un prompt"], a: 1, e: "Un agent « chef d'orchestre » découpe la demande, confie des sous-tâches, assemble les résultats." },
   { t: "QCM", q: "Quelle est la formule utile à retenir ?", o: ["Agent = modèle + harness", "Agent = token + GPU", "Agent = prompt seul", "Agent = interface + bouton"], a: 0, e: "Claude Code, Codex CLI ou OpenClaw sont des harness : boucle, outils, permissions, gestion du contexte." },
   { t: "Vrai / Faux", q: "À modèle égal, un meilleur harness donne de bien meilleurs résultats.", o: ["Vrai", "Faux"], a: 0, e: "Le harness donne au modèle les moyens d'agir et pose les garde-fous." },
+  { t: "QCM", q: "Quel fichier est obligatoire dans un skill ?", o: ["SKILL.md", "skill.json", "README.txt", "main.py"], a: 0, e: "Un skill est un dossier contenant un SKILL.md : frontmatter YAML puis instructions en Markdown." },
+  { t: "QCM", q: "Combien de tokens coûte environ la description d'un skill, tant qu'il n'est pas déclenché ?", o: ["Environ 100", "Environ 10 000", "Zéro", "Tout le contenu du skill"], a: 0, e: "Niveau 1 de la progressive disclosure : name et description, environ 100 tokens par skill." },
+  { t: "QCM", q: "Dans le chargement en 3 niveaux, quand le corps de SKILL.md est-il chargé ?", o: ["Au démarrage", "Quand la demande correspond à la description", "Jamais", "À chaque message, en entier"], a: 1, e: "Niveau 2 : les instructions sont chargées au déclenchement du skill (moins de 5 000 tokens)." },
+  { t: "QCM", q: "Que devient le code d'un script de skill quand Claude l'exécute ?", o: ["Il entre en entier dans le contexte", "Seule sa sortie entre dans le contexte", "Il est supprimé", "Il est envoyé à l'utilisateur"], a: 1, e: "Un script exécuté ne coûte que sa sortie : c'est idéal pour les opérations déterministes." },
+  { t: "Vrai / Faux", q: "Il faut garder SKILL.md sous 500 lignes et déplacer le détail dans des fichiers de référence.", o: ["Vrai", "Faux"], a: 0, e: "Et ces fichiers doivent être cités depuis SKILL.md, sinon Claude ne sait pas qu'ils existent." },
+  { t: "QCM", q: "Qu'est-ce qui décide si un skill se déclenche ?", o: ["Sa description", "La couleur du dossier", "Son nombre de lignes", "La date de création"], a: 0, e: "La description doit dire ce que fait le skill et quand l'utiliser, avec des mots-clés précis." },
+  { t: "QCM", q: "Un skill se déclenche trop souvent. Que faire ?", o: ["Le supprimer", "Préciser sa description ou ajouter disable-model-invocation: true", "Doubler sa taille", "Changer son dossier"], a: 1, e: "Une description plus précise, ou un usage manuel seulement avec disable-model-invocation." },
+  { t: "QCM", q: "En cas de nom identique, quel skill l'emporte ?", o: ["Entreprise, puis personnel, puis projet", "Projet, puis personnel, puis entreprise", "Le plus récent", "Le plus long"], a: 0, e: "Les skills de plugin sont préfixés (/nom-plugin:nom-skill), donc sans collision." },
+  { t: "Vrai / Faux", q: "Les skills se synchronisent automatiquement entre claude.ai, l'API et Claude Code.", o: ["Vrai", "Faux"], a: 1, e: "Faux : ce sont trois surfaces séparées, il faut gérer chacune." },
+  { t: "QCM", q: "Quel emballage permet de distribuer des skills, agents, hooks et serveurs MCP ?", o: ["Un plugin", "Un token", "Un embedding", "Un terminal"], a: 0, e: "Un plugin se distribue via une marketplace et peut être forcé ou bloqué par l'organisation." },
+  { t: "QCM", q: "Une règle doit s'appliquer à coup sûr, à chaque fois. Que choisir ?", o: ["Un skill", "Un hook", "Une description plus longue", "Un fichier de référence"], a: 1, e: "Un hook est du code exécuté à un événement. Un skill reste une instruction que Claude interprète." },
+  { t: "QCM", q: "Pourquoi écrire les évaluations avant la documentation complète d'un skill ?", o: ["Pour mesurer ce que Claude fait sans le skill et combler seulement les écarts", "Parce que c'est plus rapide à écrire", "Pour éviter de tester", "Pour réduire le nombre de skills à zéro"], a: 0, e: "Mesure la référence sans skill, puis écris le minimum nécessaire." },
+  { t: "QCM", q: "Qu'est-ce qui risque de « voler » les déclenchements d'autres skills ?", o: ["Une description trop large", "Un nom trop court", "Un script trop rapide", "Un dossier trop petit"], a: 0, e: "Teste la coexistence et consolide les skills qui se chevauchent quand les évaluations le confirment." },
+  { t: "QCM", q: "Sur l'API, que se passe-t-il si tu n'indiques pas de version de skill ?", o: ["La dernière version est utilisée", "La première version est utilisée", "Une erreur est renvoyée", "Le skill est désactivé"], a: 0, e: "Un nouveau téléversement change donc la production tout de suite : épingle une version." },
   { t: "QCM", q: "Quelle parade réduit les hallucinations en retrouvant des sources fiables avant de répondre ?", o: ["Le RAG", "La température à 2", "Le terminal", "Le tokenizer"], a: 0, e: "RAG, appel d'outils, vérification humaine et petits modèles spécialisés sont les parades citées." }
 ];
 
