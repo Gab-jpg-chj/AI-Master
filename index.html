@@ -4,40 +4,213 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Master</title>
-  <meta name="description" content="Fiches de révision sur l'IA : agents, tokens, modèles. Avec un jeu pour réviser en s'amusant.">
+  <meta name="description" content="Fiche de révision : agents, tokens et familles de modèles IA, avec un quiz pour réviser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <nav>
-      <a class="logo" href="index.html">🤖 AI Master</a>
-      <a class="link" href="#fiche">La fiche</a>
-      <a class="link" href="game.html">Le jeu</a>
+<div class="shell">
+  <header class="top">
+    <a class="brand" href="index.html">AI<b>Master</b></a>
+    <a class="tab" href="index.html" aria-current="page">La fiche</a>
+    <a class="tab" href="game.html">Le quiz</a>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Fiche de révision · 7 oct. 2026 · @gab</p>
+    <h1>Agents, tokens et <em>familles de modèles IA</em></h1>
+    <p class="sub">Tout ce qu'il faut comprendre sur les agents, la consommation de tokens, la fenêtre de contexte, les types de modèles et neuf notions techniques clés.</p>
+    <div class="actions">
+      <a class="btn" href="game.html">Tester mes connaissances</a>
+      <a class="btn alt" href="#s7">Aller au glossaire</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sommaire">
+      <p>Sommaire</p>
+      <ol>
+        <li><a href="#s1">1. OpenClaw et les super-agents</a></li>
+        <li><a href="#s2">2. La fin des interfaces ?</a></li>
+        <li><a href="#s3">3. Les tokens</a></li>
+        <li><a href="#s4">4. La fenêtre de contexte</a></li>
+        <li><a href="#s5">5. Les familles de modèles</a></li>
+        <li><a href="#s6">6. Les limites des LLM</a></li>
+        <li><a href="#s7">7. Glossaire</a></li>
+        <li><a href="#enchainement">Comment tout s'enchaîne</a></li>
+      </ol>
     </nav>
 
-    <h1>Deviens un <span>AI Master</span></h1>
-    <p class="lead">Agents, tokens, fenêtre de contexte, RAG, embeddings… Lis la fiche, puis teste-toi avec le jeu.</p>
-    <div class="actions">
-      <a class="btn" href="game.html">🎮 Jouer au quiz</a>
-      <a class="btn alt" href="fiche/Fiche_agents_tokens_et_familles_de_modeles_IA.pdf" download>📄 Télécharger la fiche (PDF)</a>
-    </div>
+    <main class="doc">
 
-    <h2 id="fiche">📚 Ce que contient la fiche</h2>
-    <div class="grid">
-      <div class="card"><span class="emoji">🦞</span><h3>Agents &amp; super-agents</h3><p>OpenClaw, boucle observer-raisonner-agir, risques de prompt injection.</p></div>
-      <div class="card"><span class="emoji">🖱️</span><h3>La fin des interfaces ?</h3><p>Intention en langage naturel, API et MCP, « USB-C pour l'IA ».</p></div>
-      <div class="card"><span class="emoji">🪙</span><h3>Les tokens</h3><p>Lire, chercher, produire : où part la consommation, et pourquoi.</p></div>
-      <div class="card"><span class="emoji">🪟</span><h3>Fenêtre de contexte</h3><p>Lost in the middle, context rot, compaction.</p></div>
-      <div class="card"><span class="emoji">🧠</span><h3>Familles de modèles</h3><p>LLM, World Models de LeCun (JEPA), modèle « Système 1 ».</p></div>
-      <div class="card"><span class="emoji">⚠️</span><h3>Limites des LLM</h3><p>Coût, hallucinations, parades (RAG, outils, vérification humaine).</p></div>
-      <div class="card"><span class="emoji">📖</span><h3>Glossaire</h3><p>RAG, embedding, inférence, température, open weights, CLI, terminal, orchestration, harness.</p></div>
-    </div>
+      <section id="s1">
+        <h2><span class="n">PARTIE 1</span>OpenClaw et les « super-agents »</h2>
+        <p class="lead">Un agent IA qui peut tout faire devient puissant, mais aussi ingérable et dangereux : c'est l'idée centrale de cette partie.</p>
+        <div class="box"><span class="term">OpenClaw</span><p>Agent IA open source capable d'agir sur l'ordinateur à la place de l'utilisateur (fichiers, messageries, navigateur, outils). Son créateur en a fait un phénomène à lui seul.</p></div>
+        <div class="box check"><span class="term">À vérifier</span><p>Les notes parlent d'un rachat par OpenAI à 1 Md$. À ma connaissance, OpenAI a plutôt recruté son créateur, et le projet continue en open source sous une fondation.</p></div>
+        <div class="box"><span class="term">Agent</span><p>Un LLM en boucle (observer, raisonner, agir avec des outils, recommencer) jusqu'à ce que la tâche soit terminée.</p></div>
+        <div class="box"><span class="term">Super-agent</span><p>Plus il a de permissions, plus les risques augmentent. Erreurs en cascade, actions irréversibles, fuites de données et prompt injection (un texte malveillant lu par l'agent lui fait exécuter des ordres) deviennent difficiles à maîtriser.</p></div>
+      </section>
 
-    <h2>👀 Lire la fiche ici</h2>
-    <iframe class="pdf" src="fiche/Fiche_agents_tokens_et_familles_de_modeles_IA.pdf" title="Fiche agents, tokens et familles de modèles IA"></iframe>
-    <p class="lead" style="margin-top:10px;font-size:.95rem">Si le PDF ne s'affiche pas (téléphone), utilise le bouton de téléchargement ci-dessus.</p>
+      <section id="s2">
+        <h2><span class="n">PARTIE 2</span>« Les interfaces vont disparaître, et les logiciels aussi »</h2>
+        <p class="lead">La thèse : l'humain n'ira plus cliquer dans des logiciels, il exprimera une intention et un agent fera le travail.</p>
+        <div class="box"><span class="term">Aujourd'hui</span><p>On utilise des interfaces (boutons, menus, écrans).</p></div>
+        <div class="box"><span class="term">Demain</span><p>On formule une demande en langage naturel, et l'agent appelle directement les services via des API ou des protocoles comme MCP.</p></div>
+        <div class="box"><span class="term">MCP (Model Context Protocol)</span><p>Standard ouvert, lancé par Anthropic fin 2024, qui permet à une application d'IA de se connecter de façon uniforme à des outils et des sources de données externes (fichiers, bases de données, Slack, Gmail), un peu comme un « USB-C pour l'IA ».</p></div>
+        <div class="box"><span class="term">Conséquence</span><p>La valeur se déplace de l'interface (le SaaS) vers les données, les règles métier et l'exécution.</p></div>
+        <div class="box check"><span class="term">Nuance</span><p>C'est une thèse, pas une certitude. Les logiciels risquent surtout de devenir invisibles, des « back-ends » pour agents.</p></div>
+      </section>
 
-    <footer>AI Master · notes de révision</footer>
+      <section id="s3">
+        <h2><span class="n">PARTIE 3</span>Les tokens : où vont-ils ?</h2>
+        <p class="lead">Un agent consomme des milliards de tokens parce qu'il lit, cherche et écrit en boucle.</p>
+        <div class="box"><span class="term">Token</span><p>Unité de texte traitée par le modèle, un morceau de mot. En anglais, 1 000 tokens valent environ 750 mots. Les API facturent au token, en entrée et en sortie.</p></div>
+        <div class="box"><span class="term">Exemple des notes</span><p>V. Bernard a consommé 13 milliards de tokens en un mois (septembre). Les agents relisent leur contexte à chaque étape, d'où ces volumes.</p></div>
+        <h3>Trois postes de consommation</h3>
+        <ol class="steps">
+          <li><b>Comprendre / lire :</b> la consigne et le contexte.</li>
+          <li><b>Scraper et chercher :</b> aller chercher de l'information (web, documents). C'est souvent le plus gros poste, car les pages lues sont longues.</li>
+          <li><b>Produire l'output :</b> la réponse, souvent plus chère au token que l'entrée.</li>
+        </ol>
+        <div class="box"><span class="term">Chinois contre langues occidentales</span><p>Un caractère chinois porte plus de sens qu'une lettre latine, donc la même idée s'exprime avec moins de symboles.</p></div>
+        <div class="box check"><span class="term">Nuance</span><p>Tout dépend du tokenizer (le découpeur de texte). Le français consomme en général plus de tokens que l'anglais pour un même contenu.</p></div>
+      </section>
+
+      <section id="s4">
+        <h2><span class="n">PARTIE 4</span>La fenêtre de contexte (context window)</h2>
+        <p class="lead">La fenêtre de contexte est la mémoire de travail du modèle, et elle a des limites qu'il faut gérer par des résumés.</p>
+        <div class="box"><span class="term">Définition</span><p>Tout ce que le modèle peut « avoir sous les yeux » dans une session (conversation, documents, résultats d'outils). Hors de cette fenêtre, il ne sait rien.</p></div>
+        <div class="box"><span class="term">Taille</span><p>Les modèles frontières atteignent environ 1 M de tokens, soit une dizaine de romans.</p></div>
+        <div class="box check"><span class="term">Limite</span><p>Ils n'exploitent pas tout aussi bien. Les infos du milieu sont moins bien retrouvées (phénomène <i>lost in the middle</i>) et la qualité baisse quand le contexte est très chargé (<i>context rot</i>). Les modèles se souviennent de certains passages, pas de tous.</p></div>
+        <div class="box link"><span class="term">Parade : la compaction (compacting conversation)</span><p>On demande au modèle de résumer la conversation, puis on repart d'un contexte propre contenant seulement ce résumé. Cela réduit les coûts et la dérive.</p></div>
+      </section>
+
+      <section id="s5">
+        <h2><span class="n">PARTIE 5</span>Les familles de modèles</h2>
+        <p class="lead">Il existe au moins trois grandes approches, chacune adaptée à un type de problème.</p>
+
+        <h3>① LLM (Large Language Models)</h3>
+        <ul>
+          <li>Ils prédisent le token suivant d'après des statistiques apprises sur d'énormes corpus de textes.</li>
+          <li>Excellents pour les tâches intellectuelles : écrire, résumer, coder, raisonner sur du texte.</li>
+        </ul>
+
+        <h3>② World Models (thèse de Yann LeCun)</h3>
+        <ul>
+          <li>Ils apprennent une représentation du monde (physique, causalité, évolution des situations) plutôt que des corrélations de texte. Ils sont entraînés notamment sur la vidéo et les capteurs, et simulent « ce qui se passe si… ».</li>
+          <li>LeCun défend que les LLM sont limités, car ils ne comprennent pas vraiment le monde physique. Il faut donc des world models, utiles pour la robotique et les voitures autonomes.</li>
+          <li>Son architecture de référence s'appelle <b>JEPA</b> (Joint Embedding Predictive Architecture). Elle prédit dans un espace abstrait plutôt que pixel par pixel.</li>
+        </ul>
+
+        <h3>③ « JEV » : modèle « Système 1 »</h3>
+        <ul>
+          <li>Les notes décrivent un modèle de type arbre de décision, oui ou non, sans erreurs et très économe en tokens.</li>
+          <li>Elles font référence au « Système 1 » de Kahneman : pensée rapide et automatique, par opposition au Système 2, lent et réfléchi.</li>
+        </ul>
+      </section>
+
+      <section id="s6">
+        <h2><span class="n">PARTIE 6</span>Les limites des LLM</h2>
+        <p class="lead">Les LLM sont chers et ne peuvent pas garantir l'exactitude de leurs réponses, ce qui bloque certains usages critiques.</p>
+        <div class="box"><span class="term">Très coûteux</span><p>L'entraînement et l'inférence demandent beaucoup de GPU, d'énergie et de tokens.</p></div>
+        <div class="box"><span class="term">Hallucinations</span><p>Le modèle génère du plausible, pas du vrai. On ne peut pas prédire à 100 % ses réponses, ce qui est un problème en finance, en santé ou en défense.</p></div>
+        <div class="box link"><span class="term">Parades</span><p>RAG (retrouver des sources fiables avant de répondre), appel d'outils, vérification humaine, modèles plus petits et spécialisés.</p></div>
+        <div class="box check"><span class="term">À confirmer</span><p>L'exemple noté « Hugging Face (escaping) » reste ambigu. Hugging Face est la plateforme de référence des modèles open source, ce qui peut illustrer l'échappatoire aux coûts avec des modèles ouverts et plus légers.</p></div>
+      </section>
+
+      <section id="s7">
+        <h2><span class="n">PARTIE 7</span>Glossaire : concepts techniques clés</h2>
+        <p class="lead">Neuf notions reviennent partout : RAG, embedding, inférence, température, open weights, CLI, terminal, orchestration et harness.</p>
+
+        <h3>RAG (Retrieval-Augmented Generation)</h3>
+        <div class="box"><span class="term">Définition</span><p>Technique qui donne au LLM des documents pertinents au moment de la question, au lieu de compter uniquement sur ce qu'il a appris à l'entraînement. En français : « génération augmentée par la recherche ».</p></div>
+        <p><b>Fonctionnement</b></p>
+        <ol class="steps">
+          <li>La question est transformée en embedding.</li>
+          <li>On cherche dans une base vectorielle les passages dont le sens est le plus proche.</li>
+          <li>Ces passages sont insérés dans le prompt, dans la fenêtre de contexte.</li>
+          <li>Le LLM répond en s'appuyant sur ces sources.</li>
+        </ol>
+        <div class="box"><span class="term">Intérêt</span><p>Réduit les hallucinations, donne accès à des données récentes ou privées sans réentraîner le modèle, et permet de citer ses sources.</p></div>
+        <div class="box check"><span class="term">Limites</span><p>Si la recherche ramène de mauvais passages, la réponse sera mauvaise. Les passages injectés consomment aussi des tokens, donc du coût.</p></div>
+
+        <h3>Embedding (« plongement »)</h3>
+        <div class="box"><span class="term">Définition</span><p>Représentation d'un texte (ou d'une image, d'un son) sous forme d'une liste de nombres, un vecteur, qui capture son sens. Les dimensions vont de quelques centaines à plusieurs milliers.</p></div>
+        <div class="box"><span class="term">Principe</span><p>Deux contenus de sens proche ont des vecteurs proches. « Chien » et « chat » sont voisins, « chien » et « obligation convertible » sont éloignés. La proximité se mesure par la similarité cosinus.</p></div>
+        <div class="box"><span class="term">Usages</span><p>Recherche sémantique (par le sens plutôt que par mots-clés), recommandations, classification et surtout RAG.</p></div>
+        <div class="box"><span class="term">Stockage</span><p>Dans une base vectorielle (FAISS, Pinecone, etc.).</p></div>
+        <div class="box link"><span class="term">Lien avec LeCun</span><p>JEPA prédit dans un « espace abstrait », c'est-à-dire un espace d'embeddings, plutôt que pixel par pixel.</p></div>
+
+        <h3>Inférence (inference)</h3>
+        <div class="box"><span class="term">Définition</span><p>Phase où un modèle déjà entraîné est utilisé pour produire une réponse. Chaque prompt envoyé déclenche de l'inférence.</p></div>
+        <div class="box"><span class="term">Entraînement</span><p>On ajuste les poids du modèle sur d'énormes données. C'est très coûteux, ponctuel, et réalisé par les labs.</p></div>
+        <div class="box"><span class="term">Inférence</span><p>On exécute le modèle figé. Le coût par requête est faible, mais il se répète des millions de fois.</p></div>
+        <div class="box link"><span class="term">Lien avec les notes</span><p>C'est ce qui est facturé au token. Les agents et les modèles de raisonnement consomment beaucoup d'inférence, ce qui explique les 13 Md de tokens en un mois et le caractère très coûteux des LLM.</p></div>
+        <div class="box"><span class="term">Enjeux</span><p>Latence, coût par token, GPU. L'optimisation de l'inférence est devenue un marché à part entière.</p></div>
+
+        <h3>Température</h3>
+        <div class="box"><span class="term">Définition</span><p>Paramètre qui règle le degré de hasard dans le choix du token suivant au moment de l'inférence.</p></div>
+        <div class="box"><span class="term">Réglages</span><p><b>Basse (0 à 0,3) :</b> réponses stables et factuelles. <b>Haute (0,8 et plus) :</b> réponses variées et créatives, mais plus risquées.</p></div>
+        <div class="box"><span class="term">Techniquement</span><p>On divise les scores bruts (logits) par la température avant le softmax. Une température basse « pique » la distribution, une haute l'« aplatit ».</p></div>
+        <div class="box check"><span class="term">Attention</span><p>Elle règle la régularité, pas la vérité. À 0, un modèle peut répéter la même erreur à l'identique, donc elle ne supprime pas les hallucinations.</p></div>
+        <div class="box"><span class="term">Paramètres voisins</span><p><b>top-p :</b> on tire parmi les tokens couvrant p % de probabilité cumulée. <b>top-k :</b> on ne garde que les k tokens les plus probables.</p></div>
+
+        <h3>Open weights (« poids ouverts »)</h3>
+        <div class="box"><span class="term">Définition</span><p>Un modèle dont les poids (les paramètres appris pendant l'entraînement) sont publiés et téléchargeables. N'importe qui peut le faire tourner sur ses propres machines, l'adapter ou le déployer.</p></div>
+        <div class="box check"><span class="term">À ne pas confondre avec l'open source</span><p>En général, seuls les poids sont publiés. Le code d'entraînement, les données et la recette complète restent souvent fermés, et la licence peut limiter certains usages (usage commercial, taille de l'entreprise). Un modèle open source au sens strict publie tout.</p></div>
+        <div class="box"><span class="term">Opposé</span><p>Les modèles fermés (propriétaires), accessibles uniquement via une API payante au token. On ne voit jamais leurs poids.</p></div>
+        <div class="box"><span class="term">Exemples</span><p>Llama (Meta), Mistral, Qwen et DeepSeek (Chine), gpt-oss (OpenAI). Ils sont distribués sur Hugging Face, ce qui rejoint ta note sur la plateforme.</p></div>
+        <div class="box"><span class="term">Intérêt</span><p>Confidentialité (les données ne quittent pas l'entreprise, crucial en finance ou en défense), pas de facturation au token (mais il faut payer les GPU), possibilité de fine-tuning (réentraîner légèrement le modèle sur ses données) et indépendance vis-à-vis d'un fournisseur.</p></div>
+        <div class="box check"><span class="term">Limites</span><p>Il faut l'infrastructure et les compétences pour les héberger, ils sont souvent légèrement en retrait des meilleurs modèles fermés, et leurs garde-fous de sécurité peuvent être retirés par n'importe qui.</p></div>
+        <div class="box link"><span class="term">Lien avec les notes</span><p>C'est une réponse au caractère très coûteux des LLM et à la dépendance aux grands labs. Les modèles chinois ouverts, très optimisés en tokens, y jouent un rôle central.</p></div>
+
+        <h3>Terminal</h3>
+        <div class="box"><span class="term">Définition</span><p>La fenêtre où l'on pilote un ordinateur en tapant des commandes au lieu de cliquer. Sous Windows : PowerShell ou l'invite de commandes. Sous Mac et Linux : Terminal, avec un shell (bash, zsh).</p></div>
+        <div class="box link"><span class="term">Intérêt pour l'IA</span><p>Un agent qui a accès au terminal peut tout faire comme un développeur : créer des fichiers, lancer du code, installer des outils, interroger des API. C'est ce qui le rend puissant, et donc risqué (voir la partie 1 sur les super-agents).</p></div>
+
+        <h3>CLI (Command Line Interface)</h3>
+        <div class="box"><span class="term">Définition</span><p>Un programme qu'on utilise en ligne de commande, depuis le terminal, plutôt que par une interface graphique. Exemple : <code>git commit</code> ou <code>claude</code> pour lancer Claude Code.</p></div>
+        <div class="box"><span class="term">Terminal ou CLI ?</span><p>Le terminal est la fenêtre, la CLI est le type d'outil qu'on y lance.</p></div>
+        <div class="box link"><span class="term">Pourquoi les agents l'aiment</span><p>Une CLI est du texte en entrée et du texte en sortie, ce qui convient parfaitement à un LLM. Elle est aussi facile à enchaîner et à automatiser, ce qui rejoint la thèse « les interfaces vont disparaître ».</p></div>
+        <div class="box"><span class="term">Exemples d'agents en CLI</span><p>Claude Code, Codex CLI, Gemini CLI.</p></div>
+
+        <h3>Orchestration</h3>
+        <div class="box"><span class="term">Définition</span><p>La coordination de plusieurs étapes, outils, modèles ou agents pour accomplir une tâche complexe. Elle décide qui fait quoi, dans quel ordre, avec quelles données, et gère les erreurs et les nouvelles tentatives.</p></div>
+        <div class="box"><span class="term">Exemple</span><p>Un agent « chef d'orchestre » découpe une demande en sous-tâches, confie chacune à un sous-agent (recherche, rédaction, vérification), puis assemble les résultats. Il peut aussi router : un petit modèle bon marché pour les tâches simples, un grand modèle pour les tâches difficiles.</p></div>
+        <div class="box"><span class="term">Intérêt</span><p>Elle permet d'économiser des tokens, de paralléliser le travail et de garder chaque contexte plus court et plus propre (voir la compaction, partie 4).</p></div>
+        <div class="box"><span class="term">Outils</span><p>Des frameworks comme LangChain ou LangGraph, ou une logique écrite à la main.</p></div>
+        <div class="box check"><span class="term">Limite</span><p>Plus il y a d'agents, plus les erreurs se propagent et plus la facture de tokens grimpe.</p></div>
+
+        <h3>Harness (« harnais »)</h3>
+        <div class="box"><span class="term">Définition</span><p>Tout ce qui est construit autour du modèle pour en faire un agent utilisable. Le modèle seul ne fait que prédire du texte, c'est le harness qui lui donne les moyens d'agir.</p></div>
+        <div class="box"><span class="term">Ce qu'il contient</span><p>La boucle de l'agent (observer, raisonner, agir), les outils (fichiers, web, terminal), les permissions, la gestion du contexte (compaction, mémoire), les instructions système et la vérification des résultats.</p></div>
+        <div class="box link"><span class="term">Formule utile</span><p><b>agent = modèle + harness.</b> Claude Code, Codex CLI ou OpenClaw sont des harness.</p></div>
+        <div class="box"><span class="term">Pourquoi c'est important</span><p>À modèle égal, un meilleur harness donne de bien meilleurs résultats. C'est aussi lui qui pose les garde-fous (demander une validation avant une action sensible).</p></div>
+        <div class="box"><span class="term">Harness et orchestration</span><p>Le harness est l'environnement complet d'un agent, l'orchestration est la coordination de plusieurs agents ou étapes, souvent construite à l'intérieur d'un harness.</p></div>
+      </section>
+
+      <section id="enchainement">
+        <h2><span class="n">EN RÉSUMÉ</span>Comment ces notions s'enchaînent</h2>
+        <ol class="steps">
+          <li>La question devient un embedding.</li>
+          <li>Une recherche dans la base ramène les passages pertinents (RAG).</li>
+          <li>Ils sont ajoutés au contexte.</li>
+          <li>Le LLM génère la réponse (inférence, avec une certaine température).</li>
+          <li>Le coût se compte en tokens.</li>
+        </ol>
+        <div class="cta-end">
+          <b>Tu as tout lu ? Prouve-le.</b>
+          <a class="btn" href="game.html">Lancer le quiz</a>
+        </div>
+      </section>
+
+    </main>
   </div>
+
+  <footer>AI Master · fiche de révision</footer>
+</div>
 </body>
 </html>
