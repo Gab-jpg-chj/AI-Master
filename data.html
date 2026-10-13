@@ -42,6 +42,8 @@
         <li><a href="#s6">6. Les algorithmes</a></li>
         <li><a href="#s7">7. SQL et DataCamp</a></li>
         <li><a href="#s8">8. Le réflexe du manager</a></li>
+        <li><a href="#s9">9. K-means en Python</a></li>
+        <li><a href="#s10">10. La méthode du coude</a></li>
         <li><a href="#recap">En résumé</a></li>
       </ol>
     </nav>
@@ -150,6 +152,104 @@
         <div class="box link"><span class="term">Toujours proposer 3 solutions</span><p><i>Always propose 3 solutions and get your preference for one of them.</i> Présente trois options, puis demande laquelle est préférée.</p></div>
       </section>
 
+      <section id="s9">
+        <h2><span class="n">PARTIE 9</span>K-means en Python (k = 5)</h2>
+        <p class="lead">Générer 300 points, les regrouper en 5 clusters, puis tracer le résultat avec les centroïdes.</p>
+        <pre><span class="c"># Imports nécessaires</span>
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
+k = 5              <span class="c"># nombre de clusters</span>
+n_samples = 300    <span class="c"># nombre de points</span>
+cluster_std = 1.2  <span class="c"># dispersion des groupes</span>
+
+<span class="c"># Données : 300 points 2D répartis en k groupes</span>
+X, _ = make_blobs(n_samples=n_samples, centers=k,
+                  cluster_std=cluster_std, random_state=42)
+
+<span class="c"># Modèle : 10 initialisations, on garde la meilleure</span>
+km = KMeans(n_clusters=k, n_init=10, random_state=42)
+labels = km.fit_predict(X)     <span class="c"># cluster de chaque point</span>
+centers = km.cluster_centers_  <span class="c"># les 5 centroïdes</span>
+
+<span class="c"># Graphique</span>
+plt.scatter(X[:, 0], X[:, 1], c=labels, alpha=0.6)
+plt.scatter(centers[:, 0], centers[:, 1],
+            c="red", marker="X", s=300)
+plt.title(f"K-means avec k={k}")
+plt.xlabel("x1")
+plt.ylabel("x2")
+plt.tight_layout()
+plt.show()</pre>
+        <h3>Ce que fait chaque partie</h3>
+        <div class="box"><span class="term">Les paramètres</span><p><code>k=5</code> est le nombre de clusters, <code>n_samples=300</code> le nombre de points, <code>cluster_std=1.2</code> la dispersion de chaque groupe. Plus elle est grande, plus les groupes se mélangent.</p></div>
+        <div class="box"><span class="term">make_blobs</span><p>Génère 300 points en 2 dimensions répartis en k groupes. <code>X</code> contient les points. Le <code>_</code> reçoit les vrais labels, qu'on ignore volontairement : K-means est non supervisé. <code>random_state=42</code> rend le résultat reproductible.</p></div>
+        <div class="box"><span class="term">KMeans</span><p><code>n_clusters=k</code> fixe le nombre de groupes. <code>n_init=10</code> lance 10 initialisations différentes et garde la meilleure, ce qui évite de tomber sur un mauvais départ.</p></div>
+        <div class="box"><span class="term">fit_predict et cluster_centers_</span><p><code>fit_predict(X)</code> entraîne le modèle et renvoie le cluster de chaque point (<code>labels</code>). <code>cluster_centers_</code> donne les 5 centroïdes, c'est-à-dire les barycentres des clusters.</p></div>
+        <div class="box"><span class="term">Le graphique</span><p>Le premier <code>scatter</code> colore chaque point selon son cluster (<code>c=labels</code>, <code>alpha=0.6</code> pour la transparence). Le second ajoute les centroïdes en grosses croix rouges (<code>marker="X"</code>, <code>s=300</code>).</p></div>
+      </section>
+
+      <section id="s10">
+        <h2><span class="n">PARTIE 10</span>La méthode du coude en Python</h2>
+        <p class="lead">Comment choisir k quand on ne le connaît pas : on teste plusieurs valeurs et on regarde où l'erreur cesse de baisser vite.</p>
+        <pre>import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
+<span class="c"># 300 points avec 3 vrais groupes : le bon k est donc 3</span>
+X, _ = make_blobs(n_samples=300, centers=3,
+                  cluster_std=1.2, random_state=42)
+
+<span class="c"># Un K-means par valeur de k, de 1 à 6</span>
+results = []
+for k in range(1, 7):
+    model = KMeans(n_clusters=k, n_init=10, random_state=42).fit(X)
+    cost = int(round(model.inertia_, 0))   <span class="c"># erreur arrondie</span>
+    results.append((k, cost))
+
+df = pd.DataFrame(results, columns=["k", "Error (inertia)"])
+ks = df["k"]
+errors = df["Error (inertia)"]
+
+<span class="c"># Courbe</span>
+plt.plot(ks, errors, marker="o")
+plt.xticks(ks)                 <span class="c"># uniquement des entiers</span>
+plt.xlabel("k (nombre de clusters)")
+plt.ylabel("Error (inertia)")
+plt.title("Méthode du coude")
+plt.grid(True)
+
+<span class="c"># Annotation du coude, fixé à la main</span>
+elbow_k = 3
+elbow_error = df.loc[df["k"] == elbow_k, "Error (inertia)"].values[0]
+plt.scatter([elbow_k], [elbow_error], c="red", marker="X",
+            s=200, label=f"Coude : k={elbow_k}")
+plt.legend()
+plt.show()</pre>
+        <div class="box"><span class="term">inertia_</span><p>La somme des distances au carré entre chaque point et le centroïde de son cluster. C'est l'« erreur » du modèle : plus elle est faible, plus les clusters sont compacts.</p></div>
+        <div class="box"><span class="term">La boucle</span><p><code>for k in range(1, 7)</code> entraîne un K-means pour chaque valeur de k. <code>int(round(..., 0))</code> arrondit l'inertie à l'entier. Les couples <code>(k, cost)</code> sont rangés dans <code>results</code>, puis mis dans un tableau pandas.</p></div>
+        <div class="box"><span class="term">La courbe</span><p><code>plt.plot(ks, errors, marker="o")</code> trace la courbe, <code>xticks(ks)</code> n'affiche que des entiers sur l'axe, <code>grid(True)</code> ajoute le quadrillage.</p></div>
+        <div class="box check"><span class="term">Attention</span><p><code>elbow_k = 3</code> est écrit à la main : le code ne détecte pas le coude tout seul. Il le marque seulement sur le graphique, parce qu'on sait déjà qu'il y a 3 groupes.</p></div>
+
+        <h3>Lire le résultat</h3>
+        <p>Avec ces paramètres (<code>cluster_std=1.2</code>, <code>random_state=42</code>), j'ai exécuté le code et obtenu :</p>
+        <div class="tbl"><table>
+          <thead><tr><th>k</th><th>Error (inertia)</th><th>Baisse par rapport à k−1</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>20 730</td><td>—</td></tr>
+            <tr><td>2</td><td>6 046</td><td>−14 684</td></tr>
+            <tr><td>3</td><td>816</td><td>−5 230</td></tr>
+            <tr><td>4</td><td>716</td><td>−100</td></tr>
+            <tr><td>5</td><td>614</td><td>−102</td></tr>
+            <tr><td>6</td><td>519</td><td>−95</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box"><span class="term">Le coude</span><p>L'inertie baisse toujours quand k augmente. Elle vaudrait 0 avec k = 300, un cluster par point, ce qui n'a aucun intérêt. Le coude est l'endroit où la baisse devient faible. Ici, la chute est forte de k = 1 à k = 3, puis les gains sont minimes : le bon k est 3.</p></div>
+        <div class="box check"><span class="term">Sur des données réelles</span><p>Le coude est souvent ambigu, parce que la courbe descend sans cassure nette. On le complète alors avec le score de silhouette, qui mesure à quel point chaque point est bien rangé dans son cluster.</p></div>
+      </section>
+
       <section id="recap">
         <h2><span class="n">EN RÉSUMÉ</span>À retenir</h2>
         <ol class="steps">
@@ -159,6 +259,7 @@
           <li>Trois apprentissages : supervisé, non supervisé, par renforcement.</li>
           <li>Random Forest d'abord. K-NN est supervisé. K-means est non supervisé, avec la méthode du coude pour choisir k.</li>
           <li>SQL pour collecter les données, DataCamp pour se former.</li>
+          <li>En Python : <code>KMeans(...).fit_predict(X)</code> crée les clusters, et <code>inertia_</code> tracée pour k = 1, 2, 3… montre le coude.</li>
           <li>Tu ne sais jamais si la meilleure solution a été testée : demande trois options.</li>
         </ol>
         <div class="cta-end">
