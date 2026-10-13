@@ -15,6 +15,7 @@
       <a class="brand" href="index.html">AI<b>Master</b></a>
       <a class="tab" href="index.html">Fiche IA</a>
     <a class="tab" href="skills.html">Skills</a>
+    <a class="tab" href="data.html">Data Science</a>
     <a class="tab" href="game.html" aria-current="page">Le quiz</a>
     </header>
     <div class="game">
@@ -115,6 +116,19 @@ const QUESTIONS = [
   { t: "QCM", q: "Pourquoi écrire les évaluations avant la documentation complète d'un skill ?", o: ["Pour mesurer ce que Claude fait sans le skill et combler seulement les écarts", "Parce que c'est plus rapide à écrire", "Pour éviter de tester", "Pour réduire le nombre de skills à zéro"], a: 0, e: "Mesure la référence sans skill, puis écris le minimum nécessaire." },
   { t: "QCM", q: "Qu'est-ce qui risque de « voler » les déclenchements d'autres skills ?", o: ["Une description trop large", "Un nom trop court", "Un script trop rapide", "Un dossier trop petit"], a: 0, e: "Teste la coexistence et consolide les skills qui se chevauchent quand les évaluations le confirment." },
   { t: "QCM", q: "Sur l'API, que se passe-t-il si tu n'indiques pas de version de skill ?", o: ["La dernière version est utilisée", "La première version est utilisée", "Une erreur est renvoyée", "Le skill est désactivé"], a: 0, e: "Un nouveau téléversement change donc la production tout de suite : épingle une version." },
+  { t: "QCM", q: "La programmation classique est une approche…", o: ["Déductive, basée sur des règles", "Inductive, basée sur l'apprentissage", "Aléatoire", "Basée sur des vecteurs"], a: 0, e: "Rule-based et déductive. Le ML, lui, est learning-based et inductif." },
+  { t: "QCM", q: "Quels sont les trois mots-clés du ML ?", o: ["Instance, feature, target variable", "Token, prompt, contexte", "Train, test, deploy", "Rule, loop, stop"], a: 0, e: "Instance (l'exemple), feature (sa caractéristique) et target variable (la valeur à prédire)." },
+  { t: "QCM", q: "Quel est l'objectif du ML selon le cours ?", o: ["Prédire une valeur à partir d'autres valeurs corrélées", "Écrire des règles à la main", "Remplacer tous les managers", "Stocker des données"], a: 0, e: "Predict the value from other correlated values." },
+  { t: "QCM", q: "Quelle répartition classique entre jeu d'entraînement et jeu de test ?", o: ["70 % / 30 %", "50 % / 50 %", "10 % / 90 %", "100 % / 0 %"], a: 0, e: "Train data set : 70 % d'exemples étiquetés. Test data set : 30 %." },
+  { t: "QCM", q: "La cost function mesure…", o: ["La distance entre la prédiction et la vraie valeur", "Le prix du serveur", "Le nombre de features", "Le temps d'entraînement"], a: 0, e: "Plus la distance est petite, meilleur est le modèle." },
+  { t: "QCM", q: "Au sujet du ML face aux humains, la réponse du cours est…", o: ["It depends", "Toujours oui", "Toujours non", "Seulement pour le SQL"], a: 0, e: "Cela dépend de la tâche, des données et de ce qu'on mesure." },
+  { t: "QCM", q: "Quels sont les trois types d'apprentissage du ML ?", o: ["Supervisé, non supervisé, par renforcement", "Rapide, lent, moyen", "Train, test, valid", "Clustering, SQL, Excel"], a: 0, e: "Supervised, unsupervised et reinforcement learning." },
+  { t: "QCM", q: "Classification et régression relèvent de quel apprentissage ?", o: ["Supervisé", "Non supervisé", "Par renforcement", "Aucun"], a: 0, e: "Supervisé : exemples + target, orienté tâche." },
+  { t: "Vrai / Faux", q: "K-means est un algorithme d'apprentissage supervisé.", o: ["Vrai", "Faux"], a: 1, e: "Faux : K-means est non supervisé. C'est K-NN qui est supervisé." },
+  { t: "QCM", q: "Quelle méthode sert à trouver le K optimal de K-means ?", o: ["La méthode du coude (elbow)", "La méthode du plateau", "La forêt aléatoire", "Le test 70/30"], a: 0, e: "Elbow method. Le « plateau » désigne autre chose : la stabilité atteinte en itérant." },
+  { t: "QCM", q: "Dans K-NN avec k = 5, que regarde-t-on ?", o: ["Les 5 points les plus proches", "Les 5 plus gros clusters", "Les 5 premières lignes", "5 modèles différents"], a: 0, e: "Le résultat dépend de la valeur de k : on regarde les k voisins les plus proches." },
+  { t: "QCM", q: "Quel algorithme est le premier réflexe du praticien, quel que soit le problème ?", o: ["Random Forest", "K-means", "SQL", "Elbow"], a: 0, e: "Whatever the problem I have, first I used a random forest and then I proceed." },
+  { t: "QCM", q: "Quel conseil de manager figure à la fin du cours ?", o: ["Toujours proposer 3 solutions et demander sa préférence", "Choisir la solution la moins chère", "Ne proposer qu'une option", "Laisser le data scientist décider"], a: 0, e: "Always propose 3 solutions and get your preference for one of them." },
   { t: "QCM", q: "Quelle parade réduit les hallucinations en retrouvant des sources fiables avant de répondre ?", o: ["Le RAG", "La température à 2", "Le terminal", "Le tokenizer"], a: 0, e: "RAG, appel d'outils, vérification humaine et petits modèles spécialisés sont les parades citées." }
 ];
 

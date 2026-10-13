@@ -166,3 +166,15 @@ pre .c { opacity: .6; }
 .src { font-size: .92rem; color: var(--muted); }
 .src li { overflow-wrap: anywhere; }
 @media (max-width: 700px) { .tiers { grid-template-columns: minmax(0, 1fr); } }
+
+/* barre de répartition (ex. 70 / 30) */
+.split { display: flex; height: 44px; border-radius: 10px; overflow: hidden; margin: 14px 0 6px; font-family: var(--display); font-weight: 700; font-size: .95rem; }
+.split > div { display: flex; align-items: center; padding-inline: 14px; white-space: nowrap; }
+.split .a { flex: 70; background: var(--accent); color: var(--accent-ink); }
+.split .b { flex: 30; background: var(--accent-soft); color: var(--ink); }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+.col { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 4px 4px 10px 10px; padding: 14px 16px; }
+.col b { font-family: var(--display); display: block; margin-bottom: 4px; }
+.col .tag { display: block; margin-bottom: 8px; }
+.col p { margin: 0 0 6px; font-size: .95rem; line-height: 1.5; }
+@media (max-width: 700px) { .cols { grid-template-columns: minmax(0, 1fr); } }
