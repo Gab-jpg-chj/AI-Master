@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Master – Data Science</title>
+  <meta name="description" content="Cours Data Science & AI for Managers : machine learning, types d'apprentissage, algorithmes et SQL.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <a class="brand" href="index.html">AI<b>Master</b></a>
+    <a class="tab" href="index.html">Fiche IA</a>
+    <a class="tab" href="skills.html">Skills</a>
+    <a class="tab" href="data.html" aria-current="page">Data Science</a>
+    <a class="tab" href="game.html">Le quiz</a>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Cours · Data Science &amp; AI for Managers</p>
+    <h1>Data Science et IA pour managers : comprendre le <em>machine learning</em></h1>
+    <p class="sub">Ce que doit savoir un manager pour parler à une équipe data : comment un projet de ML se déroule, comment juger un modèle, quel algorithme pour quel problème, et les pièges à repérer.</p>
+    <div class="actions">
+      <a class="btn" href="#s4">Juger un modèle</a>
+      <a class="btn alt" href="game.html">Faire le quiz</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sommaire">
+      <p>Sommaire</p>
+      <ol>
+        <li><a href="#s1">1. Le ML en une page</a></li>
+        <li><a href="#s2">2. Un projet ML, étape par étape</a></li>
+        <li><a href="#s3">3. Trois apprentissages, cinq problèmes</a></li>
+        <li><a href="#s4">4. Entraîner et juger un modèle</a></li>
+        <li><a href="#s5">5. ML, Deep Learning, LLM</a></li>
+        <li><a href="#s6">6. Quel algorithme choisir</a></li>
+        <li><a href="#s7">7. Les données et le SQL</a></li>
+        <li><a href="#s8">8. Le manager face à l'équipe data</a></li>
+        <li><a href="#s9">9. K-means en Python</a></li>
+        <li><a href="#s10">10. La méthode du coude</a></li>
+        <li><a href="#recap">En résumé</a></li>
+      </ol>
+    </nav>
+
+    <main class="doc">
+
+      <section id="s1">
+        <h2><span class="n">PARTIE 1</span>Le machine learning en une page</h2>
+        <p class="lead">Au lieu d'écrire des règles à la main, on montre des exemples à un algorithme et il en tire lui-même les règles.</p>
+        <div class="tbl"><table>
+          <thead><tr><th></th><th>Programmation classique</th><th>Machine learning (ML)</th></tr></thead>
+          <tbody>
+            <tr><td>Logique</td><td>Rule-based : des règles écrites par un humain</td><td>Learning-based : des règles apprises sur des données</td></tr>
+            <tr><td>Raisonnement</td><td>Déductif : du général au cas particulier</td><td>Inductif : des cas particuliers au général</td></tr>
+            <tr><td>On fournit</td><td>Des données et des règles</td><td>Des données et les réponses attendues</td></tr>
+            <tr><td>On obtient</td><td>Des réponses</td><td>Un modèle, c'est-à-dire des règles</td></tr>
+            <tr><td>Convient quand</td><td>Les règles sont connues et stables (calcul d'une taxe)</td><td>Les règles sont trop complexes à écrire mais les exemples abondent (repérer une fraude)</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box"><span class="term">L'objectif du ML</span><p>Prédire une valeur à partir d'autres valeurs qui lui sont corrélées. Sous le capot, les données sont transformées en vecteurs de nombres, que les algorithmes manipulent pour prédire, calculer et optimiser.</p></div>
+        <div class="box"><span class="term">Le vocabulaire de base</span><p>Une <b>instance</b> est un exemple (une ligne de données). Une <b>feature</b> est une caractéristique de cet exemple. La <b>target variable</b> est la valeur qu'on veut prédire.</p></div>
+        <div class="tbl"><table>
+          <thead><tr><th>Exemple</th><th>Instance</th><th>Features</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td>Prix d'un logement</td><td>Un appartement</td><td>Surface, quartier, étage</td><td>Le prix</td></tr>
+            <tr><td>Départ d'un client</td><td>Un client</td><td>Ancienneté, achats, réclamations</td><td>Parti ou resté</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="s2">
+        <h2><span class="n">PARTIE 2</span>Un projet ML, étape par étape</h2>
+        <p class="lead">Le modèle n'est qu'une étape. La plupart du temps passe dans les données.</p>
+        <ol class="steps">
+          <li><b>Cadrer le problème métier.</b> Que veut-on décider ou prédire, et à quoi servira le résultat ? On en déduit la target.</li>
+          <li><b>Collecter les données.</b> Souvent avec du SQL, depuis des bases de données.</li>
+          <li><b>Nettoyer.</b> Valeurs manquantes, doublons, erreurs de saisie, valeurs aberrantes.</li>
+          <li><b>Construire les features.</b> Choisir et transformer les variables utiles (une date devient « jour de la semaine »).</li>
+          <li><b>Séparer les données</b> en jeux d'entraînement et de test.</li>
+          <li><b>Entraîner</b> plusieurs modèles et régler leurs paramètres.</li>
+          <li><b>Évaluer</b> sur le jeu de test et comparer à une référence simple.</li>
+          <li><b>Déployer et surveiller.</b> Le monde change : un modèle qui était bon peut se dégrader (on parle de dérive des données).</li>
+        </ol>
+        <div class="box link"><span class="tag">À retenir</span><span class="term">Garbage in, garbage out</span><p>Des données mauvaises ou biaisées donnent un modèle mauvais ou biaisé, quelle que soit la sophistication de l'algorithme.</p></div>
+      </section>
+
+      <section id="s3">
+        <h2><span class="n">PARTIE 3</span>Trois apprentissages, cinq problèmes types</h2>
+        <p class="lead">Ce qu'on donne à la machine pour apprendre détermine la famille d'algorithmes.</p>
+        <div class="cols">
+          <div class="col"><span class="tag">① Supervised</span><b>Supervisé</b>
+            <p><b>Exemples avec la réponse (target).</b></p>
+            <p>C'est le plus simple et le plus utilisé en entreprise, car la tâche est claire et on peut mesurer l'erreur.</p>
+            <p>Ex. : classification, régression.</p></div>
+          <div class="col"><span class="tag">② Unsupervised</span><b>Non supervisé</b>
+            <p><b>Des données sans réponse.</b></p>
+            <p>Plus difficile à juger : sans target, il n'existe pas de « bonne réponse » pour vérifier le résultat.</p>
+            <p>Ex. : clustering, réduction de dimension.</p></div>
+          <div class="col"><span class="tag">③ Reinforcement</span><b>Par renforcement</b>
+            <p><b>Un agent qui agit et reçoit des récompenses.</b></p>
+            <p>Il apprend par essais et erreurs la meilleure stratégie.</p>
+            <p>Ex. : jeux, robotique, pilotage.</p></div>
+        </div>
+        <div class="tbl"><table>
+          <thead><tr><th>Question métier</th><th>Type de problème</th><th>Apprentissage</th></tr></thead>
+          <tbody>
+            <tr><td>Ce client va-t-il partir ?</td><td>Classification : prédire une catégorie</td><td>Supervisé</td></tr>
+            <tr><td>Cette transaction est-elle une fraude ?</td><td>Classification</td><td>Supervisé</td></tr>
+            <tr><td>Quel prix pour ce logement ? Quelle demande le mois prochain ?</td><td>Régression : prédire un nombre</td><td>Supervisé</td></tr>
+            <tr><td>Quels segments de clients ?</td><td>Clustering : regrouper ce qui se ressemble</td><td>Non supervisé</td></tr>
+            <tr><td>Comment résumer 200 variables en 5 ?</td><td>Réduction de dimension (par exemple l'ACP)</td><td>Non supervisé</td></tr>
+            <tr><td>Comment piloter au mieux la consommation d'énergie d'un bâtiment ?</td><td>Prédire la consommation, puis optimiser le pilotage</td><td>Supervisé, parfois par renforcement</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="s4">
+        <h2><span class="n">PARTIE 4</span>Entraîner et juger un modèle</h2>
+        <p class="lead">Un modèle ne vaut que par ce qu'il fait sur des données qu'il n'a jamais vues.</p>
+
+        <h3>Séparer les données</h3>
+        <div class="split" role="img" aria-label="70 % de données d'entraînement, 30 % de données de test">
+          <div class="a">Train · 70 %</div><div class="b">Test · 30 %</div>
+        </div>
+        <p>Le modèle apprend sur le jeu d'entraînement (<i>train</i>). On le note ensuite sur le jeu de test, qu'il n'a jamais vu. Les proportions 70/30 ou 80/20 sont courantes. Dans les projets sérieux, on ajoute souvent un jeu de <b>validation</b> pour régler le modèle, et on ne touche au jeu de test qu'une seule fois, à la fin.</p>
+
+        <h3>Apprendre = réduire l'erreur</h3>
+        <div class="box"><span class="term">Fonction de coût (cost function)</span><p>Elle mesure l'écart entre ce que le modèle prédit et la vraie valeur. L'entraînement consiste à ajuster les paramètres du modèle pour rendre cet écart le plus petit possible, par petites corrections successives (la descente de gradient).</p></div>
+        <div class="box"><span class="term">Paramètres et hyperparamètres</span><p>Les <b>paramètres</b> sont appris par le modèle pendant l'entraînement. Les <b>hyperparamètres</b> sont choisis par l'humain avant : le k de K-NN ou de K-means, le nombre d'arbres d'une forêt.</p></div>
+
+        <h3>Les deux pièges</h3>
+        <div class="box check"><span class="tag">Overfitting</span><span class="term">Surapprentissage</span><p>Le modèle apprend les données d'entraînement par cœur, bruit compris. Très bon sur le train, mauvais sur le test. C'est l'alerte numéro un.</p></div>
+        <div class="box"><span class="tag">Underfitting</span><span class="term">Sous-apprentissage</span><p>Le modèle est trop simple et rate même les données d'entraînement.</p></div>
+        <div class="box check"><span class="tag">Data leakage</span><span class="term">Fuite de données</span><p>Une information qui ne serait pas disponible au moment de la vraie décision se glisse dans les features (par exemple « résiliation confirmée » pour prédire la résiliation). Les résultats paraissent excellents, et s'effondrent en production. Un score trop beau doit éveiller les soupçons.</p></div>
+        <div class="box link"><span class="tag">En pratique</span><span class="term">Validation croisée</span><p>On découpe l'entraînement en plusieurs parts et on tourne : chaque part sert à son tour de validation. L'estimation de la qualité est plus fiable qu'avec un seul découpage.</p></div>
+
+        <h3>Mesurer la qualité</h3>
+        <p><b>En régression</b>, on regarde l'erreur moyenne entre prédiction et réalité (MAE ou RMSE). <b>En classification</b>, on compte les bonnes et mauvaises réponses :</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Exemple : 1 000 transactions, dont 10 fraudes</th><th>Fraude réelle</th><th>Pas de fraude</th></tr></thead>
+          <tbody>
+            <tr><td>Le modèle alerte</td><td>8 (vrais positifs)</td><td>4 (faux positifs)</td></tr>
+            <tr><td>Le modèle n'alerte pas</td><td>2 (fraudes ratées)</td><td>986 (vrais négatifs)</td></tr>
+          </tbody>
+        </table></div>
+        <ul>
+          <li><b>Accuracy</b> = bonnes réponses sur le total : (8 + 986) / 1 000 = 99,4 %.</li>
+          <li><b>Precision</b> = parmi les alertes, combien sont vraies : 8 / 12 ≈ 67 %.</li>
+          <li><b>Recall</b> = parmi les vraies fraudes, combien sont trouvées : 8 / 10 = 80 %.</li>
+        </ul>
+        <div class="box check"><span class="term">Pourquoi l'accuracy trompe</span><p>Un modèle qui répond toujours « pas de fraude » obtient 99 % d'accuracy et ne détecte rien. Quand une classe est rare, on juge sur la precision et le recall, et on arbitre selon le coût d'une fraude ratée contre celui d'une fausse alerte.</p></div>
+      </section>
+
+      <section id="s5">
+        <h2><span class="n">PARTIE 5</span>ML, Deep Learning, LLM et Gen AI</h2>
+        <p class="lead">Ces termes s'emboîtent comme des poupées russes. Le cours les traite tous.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Niveau</th><th>Ce que c'est</th></tr></thead>
+          <tbody>
+            <tr><td>IA</td><td>Le terme le plus large : faire accomplir à une machine des tâches qui demandent de l'intelligence.</td></tr>
+            <tr><td>Machine learning</td><td>L'IA qui apprend à partir de données plutôt que de règles écrites.</td></tr>
+            <tr><td>Deep Learning</td><td>Du ML avec des réseaux de neurones à de nombreuses couches.</td></tr>
+            <tr><td>LLM et Gen AI</td><td>Des modèles de Deep Learning qui génèrent du texte, des images ou du code. Voir la <a href="index.html">fiche IA</a>.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="tbl"><table>
+          <thead><tr><th></th><th>ML classique</th><th>Deep Learning</th></tr></thead>
+          <tbody>
+            <tr><td>Features</td><td>Choisies et préparées par l'humain</td><td>Apprises à partir de données brutes</td></tr>
+            <tr><td>Données</td><td>Peu à moyennement</td><td>Beaucoup</td></tr>
+            <tr><td>Calcul</td><td>Léger</td><td>Lourd (GPU)</td></tr>
+            <tr><td>Explicabilité</td><td>Souvent correcte</td><td>Difficile</td></tr>
+            <tr><td>Terrain de prédilection</td><td>Données en tableau (clients, ventes)</td><td>Images, son, texte</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box link"><span class="tag">À retenir</span><span class="term">Le plus gros n'est pas toujours le meilleur</span><p>Le ML a besoin de l'humain pour préparer les features, le Deep Learning s'en passe, mais à un coût en données, en calcul et en transparence. Sur des données en tableau, un ML classique est souvent aussi bon et bien moins cher. Le ML fera-t-il mieux qu'un humain ? Cela dépend de la tâche et des données.</p></div>
+      </section>
+
+      <section id="s6">
+        <h2><span class="n">PARTIE 6</span>Quel algorithme choisir</h2>
+        <p class="lead">Aucun algorithme n'est le meilleur partout. Un data scientist ne peut garantir que la meilleure solution parmi celles qu'il a testées, d'où l'intérêt d'en comparer plusieurs à une référence.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Algorithme</th><th>Type</th><th>Sert à</th><th>Atout</th><th>Limite</th></tr></thead>
+          <tbody>
+            <tr><td>Régression linéaire ou logistique</td><td>Supervisé</td><td>Prédire un nombre ou la probabilité d'une classe</td><td>Simple, explicable</td><td>Relations simples seulement</td></tr>
+            <tr><td>Arbre de décision</td><td>Supervisé</td><td>Règles « si… alors »</td><td>Lisible</td><td>Surapprend vite</td></tr>
+            <tr><td>Random Forest</td><td>Supervisé</td><td>Classification et régression</td><td>Robuste, peu de réglages</td><td>Moins lisible</td></tr>
+            <tr><td>Gradient boosting (XGBoost, LightGBM)</td><td>Supervisé</td><td>Idem, souvent au sommet sur données en tableau</td><td>Très performant</td><td>Plus de réglages</td></tr>
+            <tr><td>K-NN</td><td>Supervisé</td><td>Prédire d'après les voisins</td><td>Idée simple</td><td>Lent sur de gros volumes</td></tr>
+            <tr><td>K-means</td><td>Non supervisé</td><td>Créer des groupes</td><td>Simple, rapide</td><td>Il faut fixer k</td></tr>
+            <tr><td>ACP (PCA)</td><td>Non supervisé</td><td>Réduire le nombre de variables</td><td>Visualiser, simplifier</td><td>Axes moins parlants</td></tr>
+            <tr><td>Réseau de neurones</td><td>Surtout supervisé</td><td>Images, son, texte</td><td>Apprend ses features</td><td>Données, calcul, opacité</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Random Forest : le réflexe</h3>
+        <p>Une Random Forest réunit de nombreux arbres de décision, entraînés chacun sur une partie différente des données. Leurs réponses sont combinées par vote ou par moyenne. Elle marche bien sans gros réglages, d'où le réflexe de beaucoup de praticiens : <i>on commence par une Random Forest, puis on affine</i>. Elle sert de point de comparaison solide.</p>
+
+        <h3>K-NN : les voisins décident</h3>
+        <p>Pour prédire un nouvel exemple, on regarde ses <b>k plus proches voisins</b> (avec k = 5 : les 5 plus proches) et on prend la classe majoritaire ou la moyenne. Un k trop petit suit le bruit, un k trop grand lisse tout. Comme K-NN repose sur des distances, il faut mettre les features à la même échelle, sinon une variable en euros écrase une variable en années.</p>
+
+        <h3>K-means : fabriquer des groupes</h3>
+        <ol class="steps">
+          <li>On choisit k et on place k centres de départ.</li>
+          <li>Chaque point rejoint le centre le plus proche.</li>
+          <li>Chaque centre est recalculé comme le barycentre de son groupe.</li>
+          <li>On répète 2 et 3 jusqu'à la stabilité : un « plateau » où plus rien ne bouge.</li>
+        </ol>
+        <p>Il faut fixer k à l'avance (la <a href="#s10">méthode du coude</a> aide à le choisir), mettre les variables à la même échelle et s'attendre à des groupes plutôt ronds et de taille proche. Les valeurs extrêmes le perturbent.</p>
+
+        <div class="box check"><span class="term">Le piège des deux « K »</span><p>K-NN est supervisé et sert à prédire. K-means est non supervisé et sert à regrouper. Leur « k » ne désigne pas la même chose : des voisins d'un côté, des clusters de l'autre.</p></div>
+      </section>
+
+      <section id="s7">
+        <h2><span class="n">PARTIE 7</span>Les données et le SQL</h2>
+        <p class="lead">Avant de modéliser, il faut obtenir des données fiables. C'est là que se jouent la plupart des projets.</p>
+        <div class="box"><span class="term">SQL</span><p>Le langage pour interroger les bases de données relationnelles. Un analyste l'utilise pour extraire exactement les lignes et les colonnes dont le modèle a besoin.</p></div>
+        <pre>SELECT segment,
+       COUNT(*)    AS clients,
+       AVG(panier) AS panier_moyen
+FROM   clients
+WHERE  actif = 1
+GROUP BY segment
+ORDER BY panier_moyen DESC;</pre>
+        <p><code>SELECT</code> choisit les colonnes, <code>WHERE</code> filtre les lignes, <code>GROUP BY</code> regroupe pour calculer des agrégats, <code>JOIN</code> relie plusieurs tables.</p>
+        <div class="box check"><span class="term">Trois risques côté données</span><p><b>Qualité :</b> valeurs manquantes, doublons, erreurs. <b>Biais :</b> un modèle reproduit les déséquilibres de ses données (par exemple si un groupe y est sous-représenté). <b>Données personnelles :</b> leur usage est encadré, en Europe par le RGPD.</p></div>
+        <div class="box link"><span class="tag">Pour s'entraîner</span><span class="term">DataCamp</span><p>Les parcours Intro to SQL puis Intermediate SQL sont un bon point de départ, avec des certifications à la clé.</p></div>
+      </section>
+
+      <section id="s8">
+        <h2><span class="n">PARTIE 8</span>Le manager face à l'équipe data</h2>
+        <p class="lead">Un manager n'a pas à coder le modèle, mais il doit poser les bonnes questions.</p>
+        <h3>Cinq questions à poser</h3>
+        <ol class="steps">
+          <li>Quelle est la <b>target variable</b> : que cherche-t-on exactement à prédire, et à quoi cela servira-t-il ?</li>
+          <li>Quelles <b>données</b> a-t-on, en quelle quantité et de quelle qualité ?</li>
+          <li>Comment mesure-t-on le succès : quelle métrique, et à partir de quel seuil est-ce utile pour le métier ?</li>
+          <li>Par rapport à quelle <b>référence</b> ? Une règle simple ou une première Random Forest.</li>
+          <li>Le résultat a-t-il été vérifié sur des données de test que le modèle n'a jamais vues ?</li>
+        </ol>
+        <h3>Les signaux d'alerte</h3>
+        <ul>
+          <li>Un score presque parfait : suspecter une fuite de données.</li>
+          <li>Aucune référence de comparaison.</li>
+          <li>Un jeu de test qui ressemble trop à l'entraînement.</li>
+          <li>Des données qui ne représentent pas la population réelle.</li>
+          <li>Aucun suivi prévu après la mise en production.</li>
+        </ul>
+        <div class="box link"><span class="term">Toujours proposer 3 solutions</span><p>Demande à l'équipe de présenter trois options (par exemple simple, intermédiaire, ambitieuse) avec leurs coûts et leurs limites, puis choisis. Cela évite de découvrir trop tard qu'une option meilleure existait.</p></div>
+      </section>
+
+      <section id="s9">
+        <h2><span class="n">PARTIE 9</span>K-means en Python (k = 5)</h2>
+        <p class="lead">Générer 300 points, les regrouper en 5 clusters, puis tracer le résultat avec les centroïdes.</p>
+        <pre><span class="c"># Imports nécessaires</span>
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
+k = 5              <span class="c"># nombre de clusters</span>
+n_samples = 300    <span class="c"># nombre de points</span>
+cluster_std = 1.2  <span class="c"># dispersion des groupes</span>
+
+<span class="c"># Données : 300 points 2D répartis en k groupes</span>
+X, _ = make_blobs(n_samples=n_samples, centers=k,
+                  cluster_std=cluster_std, random_state=42)
+
+<span class="c"># Modèle : 10 initialisations, on garde la meilleure</span>
+km = KMeans(n_clusters=k, n_init=10, random_state=42)
+labels = km.fit_predict(X)     <span class="c"># cluster de chaque point</span>
+centers = km.cluster_centers_  <span class="c"># les 5 centroïdes</span>
+
+<span class="c"># Graphique</span>
+plt.scatter(X[:, 0], X[:, 1], c=labels, alpha=0.6)
+plt.scatter(centers[:, 0], centers[:, 1],
+            c="red", marker="X", s=300)
+plt.title(f"K-means avec k={k}")
+plt.xlabel("x1")
+plt.ylabel("x2")
+plt.tight_layout()
+plt.show()</pre>
+        <div class="box"><span class="term">Les données</span><p><code>make_blobs</code> génère 300 points en 2 dimensions répartis en k groupes. <code>cluster_std</code> règle leur dispersion : plus elle est grande, plus les groupes se mélangent. Le <code>_</code> reçoit les vrais labels, ignorés volontairement puisque K-means est non supervisé. <code>random_state=42</code> rend le résultat reproductible.</p></div>
+        <div class="box"><span class="term">Le modèle</span><p><code>n_init=10</code> lance 10 initialisations et garde la meilleure. <code>fit_predict(X)</code> entraîne le modèle et renvoie le cluster de chaque point. <code>cluster_centers_</code> donne les 5 centroïdes. Par défaut, scikit-learn choisit des centres de départ bien répartis (k-means++), ce qui accélère la convergence.</p></div>
+      </section>
+
+      <section id="s10">
+        <h2><span class="n">PARTIE 10</span>La méthode du coude en Python</h2>
+        <p class="lead">Comment choisir k quand on ne le connaît pas : on teste plusieurs valeurs et on regarde où l'erreur cesse de baisser vite.</p>
+        <pre>import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
+<span class="c"># 300 points avec 3 vrais groupes : le bon k est donc 3</span>
+X, _ = make_blobs(n_samples=300, centers=3,
+                  cluster_std=1.2, random_state=42)
+
+<span class="c"># Un K-means par valeur de k, de 1 à 6</span>
+results = []
+for k in range(1, 7):
+    model = KMeans(n_clusters=k, n_init=10, random_state=42).fit(X)
+    cost = int(round(model.inertia_, 0))   <span class="c"># erreur arrondie</span>
+    results.append((k, cost))
+
+df = pd.DataFrame(results, columns=["k", "Error (inertia)"])
+ks = df["k"]
+errors = df["Error (inertia)"]
+
+<span class="c"># Courbe</span>
+plt.plot(ks, errors, marker="o")
+plt.xticks(ks)                 <span class="c"># uniquement des entiers</span>
+plt.xlabel("k (nombre de clusters)")
+plt.ylabel("Error (inertia)")
+plt.title("Méthode du coude")
+plt.grid(True)
+
+<span class="c"># Annotation du coude, fixé à la main</span>
+elbow_k = 3
+elbow_error = df.loc[df["k"] == elbow_k, "Error (inertia)"].values[0]
+plt.scatter([elbow_k], [elbow_error], c="red", marker="X",
+            s=200, label=f"Coude : k={elbow_k}")
+plt.legend()
+plt.show()</pre>
+        <div class="box"><span class="term">inertia_</span><p>La somme des distances au carré entre chaque point et le centroïde de son cluster. C'est l'« erreur » du modèle : plus elle est faible, plus les clusters sont compacts. <code>elbow_k = 3</code> est écrit à la main : le code ne détecte pas le coude, il le marque parce qu'on sait déjà qu'il y a 3 groupes.</p></div>
+        <h3>Lire le résultat</h3>
+        <p>Avec ces paramètres (<code>cluster_std=1.2</code>, <code>random_state=42</code>), j'ai exécuté le code et obtenu :</p>
+        <div class="tbl"><table>
+          <thead><tr><th>k</th><th>Error (inertia)</th><th>Baisse par rapport à k−1</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>20 730</td><td>—</td></tr>
+            <tr><td>2</td><td>6 046</td><td>−14 684</td></tr>
+            <tr><td>3</td><td>816</td><td>−5 230</td></tr>
+            <tr><td>4</td><td>716</td><td>−100</td></tr>
+            <tr><td>5</td><td>614</td><td>−102</td></tr>
+            <tr><td>6</td><td>519</td><td>−95</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box"><span class="term">Le coude</span><p>L'inertie baisse toujours quand k augmente : elle vaudrait 0 avec un cluster par point, ce qui n'a aucun intérêt. Le coude est l'endroit où la baisse devient faible. Ici la chute est forte de k = 1 à k = 3, puis les gains sont minimes : le bon k est 3.</p></div>
+        <div class="box check"><span class="term">Sur des données réelles</span><p>Le coude est souvent flou. On le complète avec le score de silhouette, qui mesure à quel point chaque point est bien rangé dans son cluster, et avec le bon sens métier : combien de segments de clients peut-on réellement traiter ?</p></div>
+      </section>
+
+      <section id="recap">
+        <h2><span class="n">EN RÉSUMÉ</span>À retenir</h2>
+        <ol class="steps">
+          <li>Le ML apprend les règles à partir d'exemples. Instance, feature et target : l'exemple, ses caractéristiques, la valeur à prédire.</li>
+          <li>Un projet, c'est surtout des données : cadrer, collecter, nettoyer, construire les features, entraîner, évaluer, surveiller.</li>
+          <li>Supervisé (avec réponse), non supervisé (sans), par renforcement (récompenses). Classification, régression, clustering, réduction de dimension.</li>
+          <li>On juge un modèle sur des données de test jamais vues. Méfiance : surapprentissage, fuite de données, accuracy sur classes rares.</li>
+          <li>Le Deep Learning apprend ses features mais coûte en données, calcul et transparence. Sur données en tableau, le ML classique suffit souvent.</li>
+          <li>Random Forest d'abord. K-NN est supervisé, K-means non supervisé, avec le coude pour choisir k.</li>
+          <li>Face à l'équipe data : une target claire, une métrique, une référence, un test indépendant, trois options.</li>
+        </ol>
+        <div class="cta-end">
+          <b>Prêt à vérifier ce que tu as retenu ?</b>
+          <a class="btn" href="game.html">Lancer le quiz</a>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>AI Master · cours Data Science &amp; AI for Managers</footer>
+</div>
+</body>
+</html>
